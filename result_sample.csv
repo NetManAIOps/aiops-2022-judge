@@ -1,0 +1,10 @@
+,timestamp,level,cmdb_id,failure_type
+0,1647274980,pod,emailservice-0,k8s容器写io负载
+1,1647275890,pod,emailservice-1,k8s容器读io负载
+2,1647276651,service,checkoutservice,k8s容器cpu负载
+3,1647277802,pod,frontend-2,k8s容器网络丢包
+4,1647279460,service,shippingservice,k8s容器读io负载
+5,1647280391,pod,shippingservice-1,k8s容器cpu负载
+6,1647282858,service,frontend,k8s容器网络丢包
+7,1647283716,node,node-5,node节点CPU故障
+8,1647286737,node,node-6,node节点CPU爬升
