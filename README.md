@@ -55,5 +55,5 @@ import json
 
 x = ["emailservice-0","k8s容器写io负载"]
 
-x_string = json.dumpt(x,ensure_ascii=True)
+x_string = json.dumps(x,ensure_ascii=True)
 ```
