@@ -4,6 +4,23 @@
 
 ## 评测脚本使用样例
 
+### 环境准备
+
+`pip3 install -r requirements.txt`
+
+### 方式一：使用`judge_cli`
+
+`python3 judge_cli.py -gt "result_sample.csv" -r "result.json"`
+
+参数说明：
+
+```
+-gt 后面接ground_truth file path
+-r 后面接answer file path
+```
+
+### 方式二：直接调用`score`函数
+
 `judge.py` 文件的 `score` 为计算分数的函数，具体调用方式如下所示
 
 ```python

@@ -204,7 +204,7 @@ if __name__ == "__main__":
         },
         answers,
         0,
-        method="max",
+        method="last",
     )
     res = sorted(res, key=lambda r: int(r["teamId"]))
     logging.error(res)
