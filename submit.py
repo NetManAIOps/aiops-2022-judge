@@ -23,7 +23,7 @@ def submit(ctx):
     data = {'content': json.dumps(ctx)}
     r = requests.post(
         url='%s/answer/submit' % HOST,
-        data=json.dumps(data),
+        json=data,
         headers={"ticket": TICKET}
     )
     return r.text
