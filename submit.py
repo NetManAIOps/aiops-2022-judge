@@ -20,7 +20,7 @@ def submit(ctx):
     assert (len(ctx) == 2)
     assert (isinstance(ctx[0], str))
     assert (isinstance(ctx[1], str))
-    data = {'content': json.dumps(ctx)}
+    data = {'content': json.dumps(ctx, ensure_ascii=False)}
     r = requests.post(
         url='%s/answer/submit' % HOST,
         json=data,
@@ -35,3 +35,4 @@ if __name__ == '__main__':
     '''
     res = submit(["adservice", "k8s容器CPU压力"])
     print(res)
+    # {"code":0,"msg":"","data":1} 成功提交一次答案
