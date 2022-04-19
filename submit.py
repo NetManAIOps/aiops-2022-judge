@@ -10,7 +10,7 @@ import json
 import requests
 
 # 提交答案服务域名或IP, 将在赛前告知
-HOST = "answer service host"
+HOST = "http://10.3.2.40:30083"
 # 团队标识, 可通过界面下方权限获取, 每个ticket仅在当前赛季有效，如未注明团队标识，结果不计入成绩
 TICKET = "your team ticket"
 
