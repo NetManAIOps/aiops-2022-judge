@@ -124,6 +124,7 @@ def score(reference, answers, delta, **extra):
 
 
 def ts2date(ts):
+    ts = int(ts // 1000)
     time_tuple = time.localtime(ts)
     return time.strftime("%Y-%m-%d-%H:%M:%S", time_tuple)
 
@@ -147,7 +148,8 @@ def cal_score_by_teams(groundtruth, answer, param):
     """
     answer = answer.sort_values(by="timestamp")
     if param.N > 0:
-        answer = answer.iloc[:param.N]
+        split = int(np.floor(groundtruth.shape[0] * param.N))
+        answer = answer.iloc[:split]
     result = []
     for i in groundtruth.index:
         one_case_result = 0
