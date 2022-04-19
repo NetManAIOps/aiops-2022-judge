@@ -10,17 +10,17 @@ import json
 from kafka import KafkaConsumer
 
 AVAILABLE_TOPICS = {
-    'kpi-27433a60a55e4a1745ad77acfd4038c1',
-    'metric-27433a60a55e4a1745ad77acfd4038c1',
-    'trace-27433a60a55e4a1745ad77acfd4038c1',
-    'log-27433a60a55e4a1745ad77acfd4038c1'
+    'kpi-1c9e9efe6847bc4723abd3640527cbe9',
+    'metric-1c9e9efe6847bc4723abd3640527cbe9',
+    'trace-1c9e9efe6847bc4723abd3640527cbe9',
+    'log-1c9e9efe6847bc4723abd3640527cbe9'
 }
 
 CONSUMER = KafkaConsumer(
-    'kpi-27433a60a55e4a1745ad77acfd4038c1',
-    'metric-27433a60a55e4a1745ad77acfd4038c1',
-    'trace-27433a60a55e4a1745ad77acfd4038c1',
-    'log-27433a60a55e4a1745ad77acfd4038c1',
+    'kpi-1c9e9efe6847bc4723abd3640527cbe9',
+    'metric-1c9e9efe6847bc4723abd3640527cbe9',
+    'trace-1c9e9efe6847bc4723abd3640527cbe9',
+    'log-1c9e9efe6847bc4723abd3640527cbe9',
     bootstrap_servers=['10.3.2.41', '10.3.2.4', '10.3.2.36'],
     auto_offset_reset='latest',
     enable_auto_commit=False,
