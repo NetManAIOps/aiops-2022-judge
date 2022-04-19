@@ -36,10 +36,7 @@ def main():
     for message in CONSUMER:
         i += 1
         data = json.loads(message.value.decode('utf8'))
-        timestamp = data['timestamp']
-        print(i, message.topic, timestamp)
-        if 'log' in message.topic:
-            print(data['value'])
+        print(type(data), data)
 
 
 if __name__ == '__main__':
