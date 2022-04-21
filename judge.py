@@ -104,21 +104,16 @@ def score(reference, answers, delta, **extra):
     delta = int(delta) // 1000
     groundtruth["timestamp"] += delta
 
-    team_res = merge_team_answer(answers)
-
+    # team_res = merge_team_answer(answers)
+    groundtruth, answers_df = preprocess(groundtruth, answers)
+    team_res = answers_df.groupby(by="team_id")
     team_score = []
-    for team_id in team_res.keys():
-        one_team_all_answers = pd.DataFrame(
-            np.array(team_res[team_id]).reshape(-1, 3),
-            columns=["timestamp", "cmdb_id", "failure_type"])
-        one_team_all_answers["timestamp"] = one_team_all_answers[
-            "timestamp"].astype(np.int64).apply(ensure_timestamp)
-        final_score = cal_score_by_teams(groundtruth, one_team_all_answers,
-                                         param)
+    for team in team_res:
+        final_score = cal_score_by_teams(groundtruth, team[1], param)
         team_score.append({
-            "teamId": team_id,
+            "teamId": team[0],
             "score": sum(final_score),
-            "submitNum": one_team_all_answers.shape[0]
+            "submitNum": team[1].shape[0]
         })
     return team_score
 
@@ -191,6 +186,52 @@ def _cal_score(cases, ans, param):
     else:
         res = r[-1]
     return res
+
+
+def answers_to_df(answers):
+    new_ans = []
+    for one_answer in answers:
+        one_new_ans = [one_answer["teamId"], (one_answer["createTime"])]
+        try:
+            content = json.loads(one_answer["content"])
+        except:
+            logging.error("提交格式错误，无法被json解析")
+            continue
+        if len(content) != 2:
+            logging.error("提交格式错误，该提交为：\n" + json.dumps(one_answer))
+            content = ["error submit", "error submit"]
+            continue
+        one_new_ans.extend(content)
+        new_ans.append(one_new_ans)
+    df = pd.DataFrame(
+        new_ans, columns=["team_id", "timestamp", "cmdb_id", "failure_type"])
+    df["timestamp"] = df["timestamp"].astype(np.int64).apply(ensure_timestamp)
+    return df
+
+
+def preprocess(gt, answers, threshold=10 * 60):
+    '''丢弃故障间隔小于10min的故障及提交'''
+    gt = gt.sort_values(by="timestamp").reset_index(drop=True)
+    intervals = np.diff(gt["timestamp"].values, prepend=0)
+    index = np.where(intervals <= threshold)[0]
+    new_answers = answers_to_df(answers)
+    if index.shape[0] <= 0:
+        return gt, new_answers
+    index0 = index - 1
+
+    start = gt["timestamp"].values[index0]
+    end = gt["timestamp"].values[index] + threshold
+    for i in range(start.shape[0]):
+        new_answers = new_answers[(new_answers["timestamp"] < start[i]) |
+                                  (new_answers["timestamp"] > end[i])]
+    drop_index=np.concatenate((index0, index))
+    print(gt.iloc[sorted(drop_index)])
+    gt = gt.drop(drop_index, axis=0).reset_index(drop=True)
+    print(f"drop {len(index)*2} cases")
+    
+    return gt, new_answers
+
+
 
 
 if __name__ == "__main__":
